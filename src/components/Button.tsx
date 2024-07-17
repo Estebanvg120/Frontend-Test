@@ -1,6 +1,6 @@
 type Props = {
   text: string,
-  stock: number,
+  stock?: number,
   action: () => void,
 
 }
