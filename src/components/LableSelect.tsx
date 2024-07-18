@@ -22,7 +22,7 @@ function LabelSelect(props: Props) {
   }
   const disabled = props.stock === 0 ? true : false;
   const finalData = render?.map(element =>
-    <option key={element.value} value={element.value}>{element.option}</option>
+    <option key={element.value} value={element.option}>{element.option}</option>
   );
 
   const handleSelecteChange = (e: ChangeEvent<HTMLSelectElement>) => props.onChange && props.onChange(e.target.value);

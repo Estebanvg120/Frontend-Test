@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { Strings } from '../../assets/strings/Strings';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectSelectedProduct } from '../../store/slices/ProductSlice';
 import { LabelInfo, Loader, Title } from '../../components';
 import ButtonBack from '../../layout/components/ButtonBack';
@@ -11,10 +11,12 @@ import { selectDataDelivery } from '../../store/slices/DeliverySlice';
 import { cardToken } from '../../store/slices/CardSlice';
 import { useState } from 'react';
 import { createTransactionApi, getTransactionApi } from '../../api/services/Service';
+import { setFinalData } from '../../store/slices/FinalDataSlice';
 
 
 function Summary() {
   const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const product = useSelector(selectSelectedProduct);
   const quantityProduct = useSelector(quantity);
@@ -47,9 +49,23 @@ function Summary() {
       if (response.status === 200) {
         const transactionState = async () => {
           const state = await getTransactionApi(response.data.dataTransaction.external_id);
-          if (state.data.dataTransaction.state !== Strings.success) {
+          if (state.data.dataTransaction.state === Strings.pending) {
             setTimeout(() => transactionState(), 1000);
-          } else {
+          } else if (state.data.dataTransaction.state === Strings.success || state.data.dataTransaction.state === Strings.declined) {
+            dispatch(setFinalData({
+              amount: state.data.dataTransaction.amount,
+              external_id: state.data.dataTransaction.external_id,
+              state: state.data.dataTransaction.state,
+              createAt: state.data.dataTransaction.createAt,
+              name: state.data.dataTransaction.customer.name,
+              lastname: state.data.dataTransaction.customer.lastname,
+              documentNumber: state.data.dataTransaction.customer.documentNumber,
+              nameDelivery: state.data.dataDelivery.nameDelivery,
+              lastnameDelivery: state.data.dataDelivery.lastnameDelivery,
+              address: state.data.dataDelivery.address,
+              department: state.data.dataDelivery.department,
+              city: state.data.dataDelivery.city,
+            }));
             setIsLoading(false);
             goToCheckout();
           }

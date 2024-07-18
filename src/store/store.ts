@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import { CardSlice, ProductSlice } from "./slices";
-import DeliverySlice from "./slices/DeliverySlice";
-import QuantitySlice from "./slices/QuantitySlice";
+import { CardSlice, ProductSlice, DeliverySlice, QuantitySlice, FinalDataSlice } from "./slices";
 
 combineReducers({
   products: ProductSlice,
@@ -14,7 +12,8 @@ const store = configureStore({
     products: ProductSlice,
     cards: CardSlice,
     delivery: DeliverySlice,
-    quantity: QuantitySlice
+    quantity: QuantitySlice,
+    finaldata: FinalDataSlice
   },
 });
 export default store;

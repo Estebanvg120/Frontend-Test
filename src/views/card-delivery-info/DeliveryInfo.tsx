@@ -4,14 +4,12 @@ import LabelSelect from "../../components/LableSelect";
 import { Strings } from "../../assets/strings/Strings";
 import ButtonBack from "../../layout/components/ButtonBack";
 import { cities, deparmentselect, documentType } from "../../assets/constants/Constants";
-import { cardToken } from "../../store/slices/CardSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setDelivery } from "../../store/slices/DeliverySlice";
 
 
 function DeliveryInfo() {
-  const card = useSelector(cardToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

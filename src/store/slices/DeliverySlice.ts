@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { getAllProducts } from "../../api/services/Service";
 
 interface Delivery {
   name: string;
@@ -41,7 +40,7 @@ const deliverySlice = createSlice({
     setDelivery(state, action) {
       state.delivery = action.payload;
     },
-    clearSelectedProduct(state) {
+    clearDelivery(state) {
       state.delivery = {
         name: "",
         lastname: "",
