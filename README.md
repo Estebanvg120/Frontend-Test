@@ -58,7 +58,7 @@ Este proyecto es una aplicación frontend desarrollada en React.js para un e-com
 
    ```bash
    git clone https://github.com/Estebanvg120/Frontend-Test.git
-   cd tu-proyecto
+   cd frontend-test
    ```
 
 2. Instala las dependencias:
