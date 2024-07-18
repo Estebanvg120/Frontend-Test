@@ -74,7 +74,6 @@ const productsSlice = createSlice({
         };
       })
       .addCase(getProducts.fulfilled, (state, action) => {
-        console.log("action", action);
         return {
           ...state,
           items: action.payload,

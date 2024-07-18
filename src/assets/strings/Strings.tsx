@@ -29,7 +29,7 @@ export const Strings = {
   paymethod: "Payment Method",
   pay: "Pay",
   pending: 'PENDING',
-  success: "SUCCESS",
+  success: "APPROVED",
   error: "ERROR",
   quantity: "Quantity",
   returnStore: "Return to Store",

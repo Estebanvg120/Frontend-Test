@@ -38,8 +38,6 @@ function DeliveryInfo() {
   }
   const goToSummary = () => navigate("/summary")
 
-  console.log(card);
-
   return (
     <div className="container text-center">
 

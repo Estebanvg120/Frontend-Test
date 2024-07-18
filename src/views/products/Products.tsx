@@ -13,7 +13,6 @@ import { Product } from "../../interfaces/Products.interface";
 
 function Products() {
   const data = useSelector(selectAllProducts);
-  console.log(data);
   const { isFetching, status } = useSelector(productsState);
   const dispatch = useDispatch<AppDispatch>();
 

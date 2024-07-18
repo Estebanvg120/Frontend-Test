@@ -36,7 +36,6 @@ export const setCard = async (body: Card) => {
 
 export const createTransactionApi = async (body: createTransaction) => {
   try {
-    console.log(process.env.URL_BASE);
     const response = await axiosInstance.post("transactions/transaction",
       body,)
     return response.data;

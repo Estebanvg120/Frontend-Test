@@ -46,7 +46,6 @@ function Summary() {
       const response = await createTransactionApi(dataTransaction);
       if (response.status === 200) {
         const transactionState = async () => {
-          console.log("Esntr5a aquí");
           const state = await getTransactionApi(response.data.dataTransaction.external_id);
           if (state.data.dataTransaction.state !== Strings.success) {
             setTimeout(() => transactionState(), 1000);
