@@ -51,7 +51,7 @@ function Summary() {
           const state = await getTransactionApi(response.data.dataTransaction.external_id);
           if (state.data.dataTransaction.state === Strings.pending) {
             setTimeout(() => transactionState(), 1000);
-          } else if (state.data.dataTransaction.state === Strings.success || state.data.dataTransaction.state === Strings.declined) {
+          } else if (state.data.dataTransaction.state === Strings.success || state.data.dataTransaction.state === Strings.declined || state.data.dataTransaction.state === Strings.voided || state.data.dataTransaction.state === Strings.error) {
             dispatch(setFinalData({
               amount: state.data.dataTransaction.amount,
               external_id: state.data.dataTransaction.external_id,
