@@ -5,7 +5,7 @@ import {
   selectAllProducts,
 } from "../../store/slices/ProductSlice";
 import CardProducts from "./components/CardProducts";
-import { Title } from "../../components";
+import { Loader, Title } from "../../components";
 import { Strings } from "../../assets/strings/Strings";
 import { useEffect } from "react";
 import { AppDispatch } from "../../store/store";
@@ -35,7 +35,7 @@ function Products() {
       <div className="container text-center p-3">
         <Title text={Strings.products}></Title>
         <div className="row">
-          {isFetching ? <p>Loading ...</p> : dataProducts}
+          {isFetching ? <Loader></Loader> : dataProducts}
         </div>
       </div>
     </>

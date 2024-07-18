@@ -48,7 +48,7 @@ function CardInfo() {
       console.error(error);
     }
   }
-
+  console.log(formData);
   const goToDeliveryInfo = () => navigate("/delivery-info")
 
 

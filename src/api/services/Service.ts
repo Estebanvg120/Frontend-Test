@@ -5,7 +5,7 @@ import { createTransaction } from "../../interfaces/transaction.interface";
 
 const axiosInstance = axios.create({
   baseURL: process.env.URL_BASE,
-  timeout: 10000, // tiempo de espera en milisegundos
+  timeout: 10000,
 });
 
 export const getAllProducts = async (take: number, page: number) => {
@@ -36,6 +36,7 @@ export const setCard = async (body: Card) => {
 
 export const createTransactionApi = async (body: createTransaction) => {
   try {
+    console.log(process.env.URL_BASE);
     const response = await axiosInstance.post("transactions/transaction",
       body,)
     return response.data;
