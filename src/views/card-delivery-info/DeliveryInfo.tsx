@@ -1,57 +1,45 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Title } from "../../components";
 import LabelSelect from "../../components/LableSelect";
-import { Strings } from "../../strings/Strings";
+import { Strings } from "../../assets/strings/Strings";
 import ButtonBack from "../../layout/components/ButtonBack";
+import { cities, deparmentselect, documentType } from "../../assets/constants/Constants";
+import { cardToken } from "../../store/slices/CardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { setDelivery } from "../../store/slices/DeliverySlice";
 
 
 function DeliveryInfo() {
-
+  const card = useSelector(cardToken);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const dataselect = [{
-    value: 1,
-    option: "CC"
-  },
-  {
-    value: 2,
-    option: "CE"
+  const [formData, setFormData] = useState({
+    nameDelivery: "",
+    lastnameDelivery: "",
+    document: "",
+    documentType: "",
+    email: "",
+    phone: "",
+    city: "",
+    department: "",
+    address: "",
+    complement: "",
+  })
+
+  const handleDelivery = async () => {
+    try {
+      dispatch(setDelivery(formData));
+      goToSummary();
+    } catch (error) {
+      console.log(error);
+    }
   }
-  ];
-  const cityselect = [{
-    value: 1,
-    option: "Cali"
-  },
-  {
-    value: 2,
-    option: "Medellin"
-  },
-  {
-    value: 3,
-    option: "Bogota"
-  },
-  {
-    value: 4,
-    option: "Barranquilla"
-  }
-  ];
-  const deparmentselect = [{
-    value: 1,
-    option: "Valle"
-  },
-  {
-    value: 2,
-    option: "Antioquia"
-  },
-  {
-    value: 3,
-    option: "Bogota"
-  },
-  {
-    value: 4,
-    option: "Atlantico"
-  }
-  ];
+  const goToSummary = () => navigate("/summary")
+
+  console.log(card);
+
   return (
     <div className="container text-center">
 
@@ -72,43 +60,43 @@ function DeliveryInfo() {
         <div className='col-8'>
           <div className='row'>
             <div className='col-md-12'>
-              <Input type={"text"} text={Strings.nameDelivery}></Input>
+              <Input type={"text"} text={Strings.nameDelivery} onChange={(val: string) => setFormData({ ...formData, nameDelivery: val })}></Input>
             </div>
 
             <div className='col-md-12'>
-              <Input type={"text"} text={Strings.lastnameDelivery}></Input>
+              <Input type={"text"} text={Strings.lastnameDelivery} onChange={(val: string) => setFormData({ ...formData, lastnameDelivery: val })}></Input>
             </div>
 
             <div className='col-md-6'>
-              <Input type={"text"} text={Strings.document}></Input>
+              <Input type={"text"} text={Strings.document} onChange={(val: string) => setFormData({ ...formData, document: val })}></Input>
             </div>
 
             <div className='col-md-6'>
-              <LabelSelect text={Strings.type} data={dataselect}></LabelSelect>
+              <LabelSelect text={Strings.type} data={documentType} onChange={(val: string) => setFormData({ ...formData, documentType: val })}></LabelSelect>
             </div>
 
             <div className='col-md-12'>
-              <Input type={"text"} text={Strings.email} placeholder={Strings.placeholderemail}></Input>
+              <Input type={"text"} text={Strings.email} placeholder={Strings.placeholderemail} onChange={(val: string) => setFormData({ ...formData, email: val })}></Input>
             </div>
 
             <div className='col-md-12'>
-              <Input type={"text"} text={Strings.phone}></Input>
+              <Input type={"text"} text={Strings.phone} onChange={(val: string) => setFormData({ ...formData, phone: val })}></Input>
             </div>
 
             <div className='col-md-6'>
-              <LabelSelect text={Strings.city} data={cityselect}></LabelSelect>
+              <LabelSelect text={Strings.city} data={cities} onChange={(val: string) => setFormData({ ...formData, city: val })}></LabelSelect>
             </div>
 
             <div className='col-md-6'>
-              <LabelSelect text={Strings.department} data={deparmentselect}></LabelSelect>
+              <LabelSelect text={Strings.department} data={deparmentselect} onChange={(val: string) => setFormData({ ...formData, department: val })}></LabelSelect>
             </div>
 
             <div className='col-md-6'>
-              <Input type={"text"} text={Strings.address}></Input>
+              <Input type={"text"} text={Strings.address} onChange={(val: string) => setFormData({ ...formData, address: val })}></Input>
             </div>
 
             <div className='col-md-6'>
-              <Input type={"text"} text={Strings.complement}></Input>
+              <Input type={"text"} text={Strings.complement} onChange={(val: string) => setFormData({ ...formData, complement: val })}></Input>
             </div>
 
           </div>
@@ -116,7 +104,7 @@ function DeliveryInfo() {
         <div className='col-2' />
       </div>
 
-      <Button text={Strings.gopay} action={() => navigate("/summary")} />
+      <Button text={Strings.summary} action={handleDelivery} />
 
     </div>
   )

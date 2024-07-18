@@ -1,10 +1,12 @@
 import { dataSelect } from "../interfaces/Products.interface";
-import { Strings } from "../strings/Strings";
+import { Strings } from "../assets/strings/Strings";
+import { ChangeEvent } from "react";
 
 type Props = {
   text: string,
   data?: dataSelect[],
-  stock?: number
+  stock?: number,
+  onChange?: (option: string) => void
 };
 
 function LabelSelect(props: Props) {
@@ -22,10 +24,13 @@ function LabelSelect(props: Props) {
   const finalData = render?.map(element =>
     <option key={element.value} value={element.value}>{element.option}</option>
   );
+
+  const handleSelecteChange = (e: ChangeEvent<HTMLSelectElement>) => props.onChange && props.onChange(e.target.value);
+
   return (
     <div className="input-group mb-3">
       <span className="input-group-text" id="inputGroup-sizing-default">{props.text}</span>
-      <select className="form-select w-md-50 d-inline" aria-label="Default select example" disabled={disabled}>
+      <select className="form-select w-md-50 d-inline" aria-label="Default select example" disabled={disabled} onChange={handleSelecteChange}>
         <option selected>{Strings.select}</option>
         {finalData}
       </select>

@@ -1,9 +1,9 @@
-import { Strings } from "../strings/Strings";
+import { Strings } from "../assets/strings/Strings";
 
 type Props = {
   title: string,
   text?: string,
-  price?: string,
+  price?: number,
   available?: number,
   vertical?: boolean,
 };

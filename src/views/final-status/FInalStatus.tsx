@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { LabelInfo, Title } from '../../components';
-import { Strings } from '../../strings/Strings';
+import { Strings } from '../../assets/strings/Strings';
 import ButtonBack from '../../layout/components/ButtonBack';
 
 function FinalStatus() {

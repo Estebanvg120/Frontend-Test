@@ -1,88 +1,97 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { getAllProducts } from "../../api/services/Service";
 
+interface Product {
+  id: number;
+  image: string;
+  name: string;
+  price: number;
+  stock: number;
+}
 
-const initialState = {
-  items: [
-    {
-      id: 1,
-      image: "/foto.png",
-      title: "Product 1",
-      price: "20.00",
-      stock: 3
+interface ErrorState {
+  error: string;
+  code: string;
+}
 
-    }, {
-      id: 2,
-      image: "/foto.png",
-      title: "Product 2",
-      price: "10.00",
-      stock: 7
-    }, {
-      id: 3,
-      image: "/foto.png",
-      title: "Product 3",
-      price: "1.00",
-      stock: 90
-    },
-    {
-      id: 4,
-      image: "/foto.png",
-      title: "Product 4",
-      price: "20.00",
-      stock: 30
+interface InitialProducts {
+  items: Product[];
+  selectedProduct: Product | null;
+  error: string;
+  isFetching: boolean;
+  status: string;
+}
 
-    }, {
-      id: 5,
-      image: "/foto.png",
-      title: "Product 5",
-      price: "10.00",
-      stock: 0
-    }, {
-      id: 6,
-      image: "/foto.png",
-      title: "Product 6",
-      price: "1.00",
-      stock: 36
-    }, {
-      id: 7,
-      image: "/foto.png",
-      title: "Product 7",
-      price: "10.00",
-      stock: 31
-    }, {
-      id: 8,
-      image: "/foto.png",
-      title: "Product 8",
-      price: "1.00",
-      stock: 80
-    }
-  ],
-  selectedProduct: {
-    id: 8,
-    image: "/foto.png",
-    title: "Product 8",
-    price: "1.00",
-    stock: 80
-  },
+const initialState: InitialProducts = {
+  items: [],
+  selectedProduct: null,
+  error: "",
+  isFetching: true,
+  status: "",
 };
 
+export const getProducts = createAsyncThunk<
+  Product[],
+  void,
+  { state: RootState; rejectValue: ErrorState }
+>("products/getProducts", async (_, { rejectWithValue }) => {
+  try {
+    const products = await getAllProducts(10, 1);
+    return products.data;
+  } catch (error: unknown) {
+    const errorMessage =
+      (error as Error).message || "An unexpected error occurred";
+    return rejectWithValue({ error: errorMessage, code: "0" });
+  }
+});
+
 const productsSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
   reducers: {
     selectProduct(state, action) {
       state.selectedProduct = action.payload;
     },
     clearSelectedProduct(state) {
-      state.selectedProduct =
-      {
-        id: 8,
-        image: "/foto.png",
-        title: "Product 8",
-        price: "1.00",
-        stock: 80
-      }
+      state.selectedProduct = {
+        id: 0,
+        image: "",
+        name: "",
+        price: 0,
+        stock: 0,
+      };
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(getProducts.pending, (state) => {
+        return {
+          ...state,
+          error: "",
+          isFetching: true,
+          status: "FETCHING",
+        };
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        console.log("action", action);
+        return {
+          ...state,
+          items: action.payload,
+          error: "",
+          isFetching: false,
+          status: "SUCCESS",
+        };
+      })
+      .addCase(getProducts.rejected, (state, action) => {
+        const { error } = action.payload as { error: string; code: string };
+        return {
+          ...state,
+          error,
+          isFetching: false,
+          status: "ERROR",
+        };
+      });
   },
 });
 
@@ -91,6 +100,11 @@ export const { selectProduct, clearSelectedProduct } = productsSlice.actions;
 
 //Data Selector
 export const selectAllProducts = (state: RootState) => state.products.items;
-export const selectSelectedProduct = (state: RootState) => state.products.selectedProduct;
+export const selectSelectedProduct = (state: RootState) =>
+  state.products.selectedProduct;
+
+export const productsState = (state: RootState) => state.products;
 
 export default productsSlice.reducer;
+
+export type { Product, InitialProducts };

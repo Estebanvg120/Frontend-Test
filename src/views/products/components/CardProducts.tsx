@@ -4,7 +4,7 @@ import { Product } from "../../../interfaces/Products.interface";
 import { useDispatch } from "react-redux";
 import { selectProduct } from "../../../store/slices/ProductSlice";
 import { LabelInfo } from "../../../components";
-import { Strings } from "../../../strings/Strings";
+import { Strings } from "../../../assets/strings/Strings";
 
 
 type Props = {
@@ -23,7 +23,7 @@ function CardProducts(props: Props) {
     <div key={product.id} className="col-6 col-md-4 p-3" >
       <img src={product.image} className="card-img-top" alt="..." />
       <div className="card-body">
-        <LabelInfo title={product.title} price={product.price}></LabelInfo>
+        <LabelInfo title={product.name ?? ""} price={product.price}></LabelInfo>
         <Button text={Strings.buy} action={() => handleButton(product)}></Button>
       </div>
     </div>

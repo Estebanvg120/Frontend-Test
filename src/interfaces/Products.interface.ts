@@ -1,9 +1,10 @@
 export interface Product {
   id: number,
   image: string,
-  title: string,
-  price: string,
-  stock: number
+  name?: string,
+  price: number,
+  stock: number,
+  description?: string
 }
 
 export interface dataSelect {
