@@ -29,8 +29,6 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-Claro, aquí tienes un ejemplo de cómo podría ser un archivo `README.md` en formato Markdown para un proyecto de frontend construido en React.js, enfocado en un e-commerce con las funcionalidades descritas:
-
 ---
 
 # E-commerce App (React.js)
