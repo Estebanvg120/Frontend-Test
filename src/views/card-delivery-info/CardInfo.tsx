@@ -11,40 +11,56 @@ import { setCard } from '../../api/services/Service';
 import { Card } from '../../interfaces/card.interface';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/slices/CardSlice';
+import Alert from '../../components/Alert';
 
 function CardInfo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     creditNumber: "",
     holderName: "",
     expiry: "",
     cvv: "",
-    password: "",
     installments: 0
   });
-
   const handleCard = async () => {
     try {
-      const body: Card = {
-        number: formData.creditNumber,
-        cvc: formData.cvv,
-        exp_month: formData.expiry.split("/")[0],
-        exp_year: formData.expiry.split("/")[1],
-        card_holder: formData.holderName
-      }
-      setIsLoading(true);
-      const response = await setCard(body);
+      if (
+        formData.creditNumber.trim() !== "" &&
+        formData.cvv.trim() !== "" &&
+        formData.expiry.trim() !== "" &&
+        formData.holderName.trim() !== "" &&
+        formData.installments !== 0
+      ) {
+        setIsError(false);
+        const body: Card = {
+          number: formData.creditNumber,
+          cvc: formData.cvv,
+          exp_month: formData.expiry.split("/")[0],
+          exp_year: formData.expiry.split("/")[1],
+          card_holder: formData.holderName
+        }
+        setIsLoading(true);
+        const response = await setCard(body);
 
-      if (response.status === "CREATED") {
-        dispatch(setToken({ cardToken: response.data.id, installments: formData.installments }))
-        goToDeliveryInfo();
+        if (response.status === "CREATED") {
+          dispatch(setToken({ cardToken: response.data.id, installments: formData.installments }))
+          goToDeliveryInfo();
+        }
+        setIsLoading(false);
+      } else {
+        setIsError(true);
+        setMessage("All fields are mandatory");
       }
 
-      setIsLoading(false);
+
     } catch (error) {
+      setIsError(true);
       setIsLoading(false);
+      setMessage("Check the fields you are sending");
       console.error(error);
     }
   }
@@ -75,7 +91,7 @@ function CardInfo() {
         <div className='col'>
           <div className='row'>
             <div className='col-12'>
-              <Input type={"text"} text={Strings.creditNumber} onChange={(val: string) => setFormData({ ...formData, creditNumber: val })}></Input>
+              <Input type={"number"} text={Strings.creditNumber} onChange={(val: string) => setFormData({ ...formData, creditNumber: val })}></Input>
             </div>
 
             <div className='col-12'>
@@ -97,6 +113,7 @@ function CardInfo() {
           </div>
         </div>
         <div className='col-md-4' />
+        {isError ? <Alert message={message}></Alert> : <></>}
         {isLoading ? <Loader></Loader> : <Button text={Strings.delivery} action={handleCard}></Button>}
       </div>
     </div >

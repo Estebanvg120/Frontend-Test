@@ -7,11 +7,15 @@ import { cities, deparmentselect, documentType } from "../../assets/constants/Co
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setDelivery } from "../../store/slices/DeliverySlice";
+import Alert from "../../components/Alert";
 
 
 function DeliveryInfo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [formData, setFormData] = useState({
     nameDelivery: "",
@@ -28,12 +32,32 @@ function DeliveryInfo() {
 
   const handleDelivery = async () => {
     try {
-      dispatch(setDelivery(formData));
-      goToSummary();
+      console.log(formData);
+      if (
+        formData.address.trim() !== "" &&
+        formData.city.trim() !== "" &&
+        formData.complement.trim() !== "" &&
+        formData.department.trim() !== "" &&
+        formData.document.trim() !== "" &&
+        formData.documentType.trim() !== "" &&
+        formData.email.trim() !== "" &&
+        formData.lastnameDelivery.trim() !== "" &&
+        formData.nameDelivery.trim() !== "" &&
+        formData.phone.trim() !== ""
+      ) {
+        setIsError(false);
+
+        dispatch(setDelivery(formData));
+        goToSummary();
+      } else {
+        setIsError(true);
+        setMessage("All fields are mandatory")
+      }
     } catch (error) {
       console.log(error);
     }
   }
+  console.log(formData);
   const goToSummary = () => navigate("/summary")
 
   return (
@@ -72,7 +96,7 @@ function DeliveryInfo() {
             </div>
 
             <div className='col-md-12'>
-              <Input type={"text"} text={Strings.email} placeholder={Strings.placeholderemail} onChange={(val: string) => setFormData({ ...formData, email: val })}></Input>
+              <Input type={"text"} text={Strings.email} placeholder={Strings.placeholderemail} onChange={(val: string) => setFormData({ ...formData, email: val })} isEmail={true}></Input>
             </div>
 
             <div className='col-md-12'>
@@ -99,7 +123,7 @@ function DeliveryInfo() {
         </div>
         <div className='col-2' />
       </div>
-
+      {isError ? <Alert message={message}></Alert> : <></>}
       <Button text={Strings.summary} action={handleDelivery} />
 
     </div>

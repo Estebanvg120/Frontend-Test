@@ -1,3 +1,4 @@
+import { numberFormat } from "../assets/functions/Functions";
 import { Strings } from "../assets/strings/Strings";
 
 type Props = {
@@ -17,7 +18,7 @@ function LabelInfo(props: Props) {
     renderData = <p className="card-text">{Strings.noUnits}</p>
   }
   if (props.price) {
-    renderData = <p className="card-text">$ {props.price}</p>
+    renderData = <p className="card-text">{numberFormat(props.price)}</p>
   }
   if (props.text) {
     renderData = <p className="card-text"> {props.text}</p>

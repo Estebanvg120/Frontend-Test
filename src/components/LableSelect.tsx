@@ -31,7 +31,7 @@ function LabelSelect(props: Props) {
     <div className="input-group mb-3">
       <span className="input-group-text" id="inputGroup-sizing-default">{props.text}</span>
       <select className="form-select w-md-50 d-inline" aria-label="Default select example" disabled={disabled} onChange={handleSelecteChange}>
-        <option selected>{Strings.select}</option>
+        <option selected >{Strings.select}</option>
         {finalData}
       </select>
     </div>

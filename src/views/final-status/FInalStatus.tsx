@@ -9,7 +9,6 @@ import { selectFinalData } from '../../store/slices/FinalDataSlice';
 function FinalStatus() {
   const navigate = useNavigate()
   const finalData = useSelector(selectFinalData);
-  console.log(finalData);
   return <>
     <div className="container text-center">
 

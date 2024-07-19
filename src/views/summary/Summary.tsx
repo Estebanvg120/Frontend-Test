@@ -12,6 +12,7 @@ import { cardToken } from '../../store/slices/CardSlice';
 import { useState } from 'react';
 import { createTransactionApi, getTransactionApi } from '../../api/services/Service';
 import { setFinalData } from '../../store/slices/FinalDataSlice';
+import Alert from '../../components/Alert';
 
 
 function Summary() {
@@ -24,6 +25,8 @@ function Summary() {
   const card = useSelector(cardToken);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
 
   const priceProduct: number = product?.price ? product.price : 0;
   const subtotal: number = priceProduct * quantityProduct;
@@ -71,9 +74,15 @@ function Summary() {
           }
         }
         transactionState();
+      } else {
+        setIsLoading(false);
+        setIsError(true);
+        setMessage("Error to create transaction")
       }
     } catch (error) {
       setIsLoading(false);
+      setIsError(true);
+      setMessage("Error to create transaction")
       console.error(error);
     }
   }
@@ -134,7 +143,7 @@ function Summary() {
           <LabelInfo title={Strings.total} price={parseInt(total)} vertical={true}></LabelInfo>
         </div>
       </div>
-
+      {isError ? <Alert message={message}></Alert> : <></>}
       {isLoading ? <Loader></Loader> : <Button text={Strings.pay} action={handleSummary}></Button>}
 
     </div>
