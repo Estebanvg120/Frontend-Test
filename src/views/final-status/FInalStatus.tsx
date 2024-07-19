@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { LabelInfo, Title } from '../../components';
 import { Strings } from '../../assets/strings/Strings';
-import ButtonBack from '../../layout/components/ButtonBack';
 import { useSelector } from 'react-redux';
 import { selectFinalData } from '../../store/slices/FinalDataSlice';
 
@@ -14,7 +13,6 @@ function FinalStatus() {
 
       <div className='row'>
         <div className='col-4'>
-          <ButtonBack></ButtonBack>
         </div>
         <div className='col-4 p-3'>
           <Title text={finalData.state === Strings.success ? Strings.trx_success : Strings.trx_declined}></Title>
